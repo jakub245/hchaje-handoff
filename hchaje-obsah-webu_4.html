@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HC Háje — Obsah webu ke schválení</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Syne:wght@600;700&family=Inter:wght@400;500&display=swap');
+
+  :root {
+    --bg: #0e0e0e;
+    --bg2: #161616;
+    --bg3: #1e1e1e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.13);
+    --green: #a8ff57;
+    --green-dim: rgba(168,255,87,0.1);
+    --text: #f0f0f0;
+    --text2: #aaa;
+    --text3: #666;
+    --mono: 'DM Mono', monospace;
+    --sans: 'Syne', sans-serif;
+    --body: 'Inter', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .topbar {
+    background: var(--bg2);
+    border-bottom: 0.5px solid var(--border2);
+    padding: 16px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+
+  .topbar-left { display: flex; align-items: center; gap: 12px; }
+  .topbar-title { font-family: var(--sans); font-size: 15px; font-weight: 700; }
+  .topbar-sub { font-size: 12px; color: var(--text2); }
+
+  .badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    background: var(--green-dim);
+    border: 0.5px solid rgba(168,255,87,0.25);
+    color: var(--green);
+    border-radius: 4px;
+    padding: 2px 8px;
+    letter-spacing: 0.05em;
+  }
+
+  .nav {
+    display: flex;
+    gap: 4px;
+    padding: 16px 24px 0;
+    border-bottom: 0.5px solid var(--border);
+    overflow-x: auto;
+  }
+
+  .nav-btn {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+    background: none;
+    border: none;
+    padding: 8px 14px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: color 0.15s;
+    letter-spacing: 0.04em;
+  }
+
+  .nav-btn:hover { color: var(--text); }
+  .nav-btn.active { color: var(--green); border-bottom-color: var(--green); }
+
+  .content { padding: 24px; max-width: 1100px; }
+
+  .page-section { display: none; }
+  .page-section.active { display: block; }
+
+  .section-title {
+    font-family: var(--sans);
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 6px;
+  }
+
+  .section-desc {
+    font-size: 13px;
+    color: #aaa;
+    margin-bottom: 20px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 32px;
+  }
+
+  .table-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+    margin-top: 24px;
+  }
+
+  thead th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #777;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 8px 12px;
+    border-bottom: 0.5px solid var(--border2);
+    font-weight: 400;
+  }
+
+  tbody tr { border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+  tbody tr:last-child { border-bottom: none; }
+
+  td {
+    padding: 10px 12px;
+    vertical-align: top;
+    font-size: 13px;
+  }
+
+  .td-label {
+    width: 180px;
+    color: #bbb;
+    font-family: var(--mono);
+    font-size: 11px;
+    white-space: nowrap;
+    padding-top: 13px;
+  }
+
+  .td-current {
+    width: 40%;
+    color: #c0c0c0;
+    line-height: 1.55;
+  }
+
+  .td-new { width: 40%; }
+
+  .editable {
+    background: #1f1f1f;
+    border: 0.5px solid rgba(255,255,255,0.18);
+    border-radius: 6px;
+    padding: 8px 10px;
+    color: #f0f0f0;
+    font-family: var(--body);
+    font-size: 13px;
+    line-height: 1.55;
+    width: 100%;
+    min-height: 36px;
+    resize: vertical;
+    outline: none;
+    transition: border-color 0.15s;
+  }
+
+  .editable:focus { border-color: rgba(168,255,87,0.4); }
+  .editable.changed { border-color: rgba(168,255,87,0.5); background: rgba(168,255,87,0.04); }
+
+  .team-block {
+    background: var(--bg2);
+    border: 0.5px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+
+  .team-header {
+    padding: 12px 16px;
+    border-bottom: 0.5px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .team-header-title {
+    font-family: var(--sans);
+    font-size: 14px;
+    font-weight: 600;
+    flex: 1;
+  }
+
+  .team-header-toggle {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text3);
+    transition: transform 0.2s;
+  }
+
+  .team-body { padding: 12px 16px 16px; }
+  .team-body.hidden { display: none; }
+
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  .note {
+    background: rgba(168,255,87,0.06);
+    border: 0.5px solid rgba(168,255,87,0.2);
+    border-radius: 8px;
+    padding: 10px 14px;
+    font-size: 12px;
+    color: var(--text2);
+    margin-bottom: 20px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .note-icon { color: var(--green); flex-shrink: 0; }
+
+  .save-bar {
+    position: fixed;
+    bottom: 20px;
+    right: 24px;
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    background: var(--bg2);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 10px 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.2s, transform 0.2s;
+    pointer-events: none;
+  }
+
+  .save-bar.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .save-btn {
+    background: var(--green);
+    color: #0e0e0e;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    letter-spacing: 0.05em;
+  }
+
+  .save-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text2);
+  }
+
+  .changed-count {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--green);
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <div>
+      <div class="topbar-title">HC Háje — obsah webu</div>
+      <div class="topbar-sub">Vyplňte nový text do pravého sloupce. Levý sloupec je jen pro přehled.</div>
+    </div>
+    <span class="badge">KE SCHVÁLENÍ</span>
+  </div>
+  <div style="font-family:var(--mono);font-size:11px;color:var(--text3);" id="change-summary">0 změn</div>
+</div>
+
+<div class="nav">
+  <button class="nav-btn active" onclick="showPage('uvod', this)">Úvod</button>
+  <button class="nav-btn" onclick="showPage('o-klubu', this)">O klubu</button>
+  <button class="nav-btn" onclick="showPage('druzstva', this)">Družstva</button>
+  <button class="nav-btn" onclick="showPage('treninky', this)">Tréninky</button>
+  <button class="nav-btn" onclick="showPage('kontakty', this)">Kontakty</button>
+  <button class="nav-btn" onclick="showPage('navigace', this)">Navigace &amp; patička</button>
+  <button class="nav-btn" onclick="showPage('nabor', this)">Nábor ✦</button>
+</div>
+
+<div class="content">
+
+<!-- ÚVOD -->
+<div class="page-section active" id="page-uvod">
+  <div class="section-title">Úvodní stránka</div>
+  <div class="section-desc">Hero sekce, statistiky a sekce O klubu na homepage.</div>
+
+  <div class="note"><span class="note-icon">↗</span> Statistiky (počet hráček, tréninků) se počítají automaticky z dat o družstvech — nemusíte je vyplňovat.</div>
+
+  <div class="table-label">Hero sekce</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Sezóna — badge</td>
+        <td class="td-current">Sezóna 2025 / 2026</td>
+        <td><textarea class="editable" rows="1" data-field="hero-sezona" placeholder="Sezóna 2025 / 2026"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Hlavní nadpis — řádek 1</td>
+        <td class="td-current">Házená je</td>
+        <td><textarea class="editable" rows="1" data-field="hero-h1-1" placeholder="Házená je"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Hlavní nadpis — zvýrazněný text</td>
+        <td class="td-current">náš život.</td>
+        <td><textarea class="editable" rows="1" data-field="hero-h1-2" placeholder="náš život."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Podnadpis</td>
+        <td class="td-current">Jsme HC Háje — dívčí a ženský házenkářský klub z Prahy 4. Od roku 1980 vedeme hráčky k pravidelnému sportu, týmovosti a radosti z házené.</td>
+        <td><textarea class="editable" rows="3" data-field="hero-subtitle" placeholder="Jsme HC Háje..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Tlačítko 1</td>
+        <td class="td-current">Přijdu na trénink</td>
+        <td><textarea class="editable" rows="1" data-field="hero-btn1" placeholder="Přijdu na trénink"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Tlačítko 2</td>
+        <td class="td-current">Více o klubu</td>
+        <td><textarea class="editable" rows="1" data-field="hero-btn2" placeholder="Více o klubu"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Sekce O klubu (na homepage)</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Nadpis</td>
+        <td class="td-current">Tradice a výchova od roku 1980</td>
+        <td><textarea class="editable" rows="1" data-field="home-about-h2" placeholder="Tradice a výchova od roku 1980"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Odstavec 1</td>
+        <td class="td-current">HC Háje patří mezi tradiční centra dívčí házené v Praze. Zaměřujeme se na dlouhodobou sportovní přípravu děvčat od přípravky až po ženské kategorie.</td>
+        <td><textarea class="editable" rows="3" data-field="home-about-p1"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Odstavec 2</td>
+        <td class="td-current">V nejmladších kategoriích stavíme na pohybových hrách a všeobecném rozvoji, na které postupně navazují házenkářské dovednosti, soutěže i týmové zkušenosti.</td>
+        <td><textarea class="editable" rows="3" data-field="home-about-p2"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Instagram sekce</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Nadpis</td>
+        <td class="td-current">Z našeho Instagramu</td>
+        <td><textarea class="editable" rows="1" data-field="reels-title" placeholder="Z našeho Instagramu"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Instagram Reel URL #1</td>
+        <td class="td-current">https://www.instagram.com/reel/DV_oFfejTpP/...</td>
+        <td><textarea class="editable" rows="1" data-field="reel-1-url" placeholder="https://www.instagram.com/reel/..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Instagram Reel URL #2</td>
+        <td class="td-current">(placeholder)</td>
+        <td><textarea class="editable" rows="1" data-field="reel-2-url" placeholder="https://www.instagram.com/reel/..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Instagram Reel URL #3</td>
+        <td class="td-current">(placeholder)</td>
+        <td><textarea class="editable" rows="1" data-field="reel-3-url" placeholder="https://www.instagram.com/reel/..."></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- O KLUBU -->
+<div class="page-section" id="page-o-klubu">
+  <div class="section-title">O klubu</div>
+  <div class="section-desc">Texty na stránce /o-klubu — intro, hodnoty, milníky.</div>
+
+  <div class="table-label">Intro texty</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Odstavec 1</td>
+        <td class="td-current">HC Háje je dívčí a ženský házenkářský klub z Prahy 4, který patří od svého založení v roce 1980 mezi výrazná centra dívčí házené v Praze i v rámci celé České republiky.</td>
+        <td><textarea class="editable" rows="3" data-field="oklubu-p1"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Odstavec 2</td>
+        <td class="td-current">Klub je zaměřený na dlouhodobou sportovní přípravu děvčat od 6 do 17 let. V nejmladších kategoriích stavíme na pohybových hrách, soutěžích a všeobecné sportovní průpravě...</td>
+        <td><textarea class="editable" rows="3" data-field="oklubu-p2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Odstavec 3</td>
+        <td class="td-current">Na žákovské a dorostenecké kategorie navazují ženská družstva. Vedle sportovních výsledků je naším hlavním cílem získat a nadchnout co nejvíce dětí pro pravidelné sportování...</td>
+        <td><textarea class="editable" rows="3" data-field="oklubu-p3"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Právní název klubu</td>
+        <td class="td-current">Tělovýchovná jednota Háje–Jižní Město, Handballclub, pobočný spolek</td>
+        <td><textarea class="editable" rows="2" data-field="oklubu-pravni"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">IČO</td>
+        <td class="td-current">629 38 045</td>
+        <td><textarea class="editable" rows="1" data-field="oklubu-ico"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Hodnoty (4 hodnoty)</div>
+  <table>
+    <thead><tr><th style="width:180px">Hodnota</th><th>Aktuální popis</th><th>Nový popis</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">❤️ Vášeň</td>
+        <td class="td-current">Házená není jen sport — je to způsob života. Každý trénink dáváme maximum.</td>
+        <td><textarea class="editable" rows="2" data-field="hodnota-vasen"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">👥 Komunita</td>
+        <td class="td-current">Jsme víc než tým. Jsme rodina, která se vzájemně podporuje na hřišti i mimo něj.</td>
+        <td><textarea class="editable" rows="2" data-field="hodnota-komunita"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">🎯 Rozvoj</td>
+        <td class="td-current">Každá hráčka se u nás posouvá — ať už v technice, taktice nebo osobním růstu.</td>
+        <td><textarea class="editable" rows="2" data-field="hodnota-rozvoj"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">🏆 Fair play</td>
+        <td class="td-current">Respekt k soupeřkám, rozhodčím i sobě navzájem je základ všeho, co děláme.</td>
+        <td><textarea class="editable" rows="2" data-field="hodnota-fairplay"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Milníky / Historie</div>
+  <div class="note" style="margin-bottom:12px;"><span class="note-icon">↗</span> Upravte stávající milníky, přidejte nové nebo nepotřebné smažte tlačítkem ×. Pořadí odpovídá zobrazení na webu.</div>
+
+  <div id="milestones-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:12px;"></div>
+
+  <button onclick="addMilestone()" style="font-family:var(--mono);font-size:11px;background:none;border:0.5px solid rgba(168,255,87,0.3);color:var(--green);border-radius:6px;padding:7px 14px;cursor:pointer;letter-spacing:0.04em;">+ Přidat milník</button>
+</div>
+
+<!-- DRUŽSTVA -->
+<div class="page-section" id="page-druzstva">
+  <div class="section-title">Družstva</div>
+  <div class="section-desc">Popis každého družstva — krátký (na kartě) a dlouhý (na detailu). Trenéři, věkové rozmezí.</div>
+
+  <div class="note"><span class="note-icon">↗</span> Soupiska hráček se aktualizuje přímo v kódu — na to se zeptejte Jakuba. Tady upravujte jen texty.</div>
+
+  <div id="teams-container"></div>
+</div>
+
+<!-- TRÉNINKY -->
+<div class="page-section" id="page-treninky">
+  <div class="section-title">Tréninky</div>
+  <div class="section-desc">Stránka tréninků — nadpis, podnadpis. Samotný rozvrh se upravuje v datech o družstvech.</div>
+
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Nadpis stránky</td>
+        <td class="td-current">Tréninky</td>
+        <td><textarea class="editable" rows="1" data-field="treninky-title" placeholder="Tréninky"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Podnadpis stránky</td>
+        <td class="td-current">Přehled tréninků napříč všemi družstvy. Tréninky probíhají na více místech podle kategorie i části sezóny.</td>
+        <td><textarea class="editable" rows="2" data-field="treninky-subtitle"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="note"><span class="note-icon">↗</span> Časy a místa tréninků se mění v souboru <code style="font-family:var(--mono);font-size:11px;background:var(--bg3);padding:1px 5px;border-radius:3px;">src/data/teams.ts</code> — řekněte Jakubovi co změnit a on to upraví.</div>
+</div>
+
+<!-- KONTAKTY -->
+<div class="page-section" id="page-kontakty">
+  <div class="section-title">Kontakty</div>
+  <div class="section-desc">Kontaktní informace zobrazené na webu a v patičce.</div>
+
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální hodnota</th><th>Nová hodnota</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Telefon 1</td>
+        <td class="td-current">+420 777 721 282</td>
+        <td><textarea class="editable" rows="1" data-field="contact-phone1" placeholder="+420 777 721 282"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Telefon 2</td>
+        <td class="td-current">(doplnit)</td>
+        <td><textarea class="editable" rows="1" data-field="contact-phone2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">E-mail</td>
+        <td class="td-current">info@hchaje.cz</td>
+        <td><textarea class="editable" rows="1" data-field="contact-email" placeholder="info@hchaje.cz"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Název místa</td>
+        <td class="td-current">Areál TJ Háje</td>
+        <td><textarea class="editable" rows="1" data-field="contact-place-title" placeholder="Areál TJ Háje"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Adresa</td>
+        <td class="td-current">K Jezeru 1, Praha 4 – Háje</td>
+        <td><textarea class="editable" rows="1" data-field="contact-address" placeholder="K Jezeru 1, Praha 4 – Háje"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Tréninky — hodiny</td>
+        <td class="td-current">Po – Pá, 16:00 – 21:00</td>
+        <td><textarea class="editable" rows="1" data-field="contact-hours" placeholder="Po – Pá, 16:00 – 21:00"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Instagram URL</td>
+        <td class="td-current">https://www.instagram.com/hchaje/</td>
+        <td><textarea class="editable" rows="1" data-field="contact-instagram" placeholder="https://www.instagram.com/hchaje/"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Facebook URL</td>
+        <td class="td-current">https://www.facebook.com/hchaje/</td>
+        <td><textarea class="editable" rows="1" data-field="contact-facebook" placeholder="https://www.facebook.com/hchaje/"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">GPS souřadnice</td>
+        <td class="td-current">50.0365389N, 14.5359419E</td>
+        <td><textarea class="editable" rows="1" data-field="contact-gps" placeholder="50.0365389N, 14.5359419E"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Kontaktní formulář</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Perex pod nadpisem</td>
+        <td class="td-current">První trénink je u nás zdarma a nezávazně. Napište nám pár informací a ozveme se vám co nejdříve.</td>
+        <td><textarea class="editable" rows="2" data-field="form-perex"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Info o dítěti — popis</td>
+        <td class="td-current">HC Háje je dívčí klub a tréninky jsou určené pro holky, které si chtějí házenou nezávazně vyzkoušet.</td>
+        <td><textarea class="editable" rows="2" data-field="form-child-note"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- NAVIGACE & PATIČKA -->
+<div class="page-section" id="page-navigace">
+  <div class="section-title">Navigace &amp; patička</div>
+  <div class="section-desc">Název klubu v logu, položky menu a texty v patičce.</div>
+
+  <div class="table-label">Logo / název</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Název v logu</td>
+        <td class="td-current">HC Háje</td>
+        <td><textarea class="editable" rows="1" data-field="nav-logo" placeholder="HC Háje"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Podtitul v logu</td>
+        <td class="td-current">Praha 4</td>
+        <td><textarea class="editable" rows="1" data-field="nav-logo-sub" placeholder="Praha 4"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">CTA Strip (zelený pruh)</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Nadpis</td>
+        <td class="td-current">Přijď si vyzkoušet házenou</td>
+        <td><textarea class="editable" rows="1" data-field="cta-title"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Podtext</td>
+        <td class="td-current">První trénink zdarma a nezávazně. Stačí přijít v sportovním oblečení.</td>
+        <td><textarea class="editable" rows="2" data-field="cta-sub"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Tlačítko</td>
+        <td class="td-current">Chci na trénink</td>
+        <td><textarea class="editable" rows="1" data-field="cta-btn"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Patička</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Popis klubu</td>
+        <td class="td-current">Dívčí a ženský házenkářský klub z Prahy 4. Trénujeme od roku 1980.</td>
+        <td><textarea class="editable" rows="2" data-field="footer-desc"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Copyright text</td>
+        <td class="td-current">© 2025 HC Háje. Všechna práva vyhrazena.</td>
+        <td><textarea class="editable" rows="1" data-field="footer-copy"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- NÁBOR -->
+<div class="page-section" id="page-nabor">
+  <div class="section-title">Nábor</div>
+  <div class="section-desc">Nová stránka /nabor — úvodní text, fotka a kontaktní formulář.</div>
+
+  <div class="note"><span class="note-icon">✦</span> Toto je nová stránka která ještě neexistuje. Vyplňte obsah a Jakub ji postaví.</div>
+
+  <div class="table-label">Úvodní sekce</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Nadpis stránky</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-title" placeholder="Např. Nábor hráček"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Podnadpis stránky</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-subtitle" placeholder="Např. Přijďte si vyzkoušet házenou zdarma a nezávazně."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Úvodní text</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="5" data-field="nabor-text" placeholder="Delší text o náboru — pro koho je určen, co čekat na prvním tréninku, věkové kategorie..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Foto URL</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-foto" placeholder="https://res.cloudinary.com/..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Popisek fotky</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-foto-caption" placeholder="Např. Tréninky přípravky v areálu TJ Háje"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Kontaktní formulář</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Nadpis formuláře</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-form-title" placeholder="Např. Mám zájem o nábor"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Perex pod nadpisem</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-form-perex" placeholder="Např. Napište nám a ozveme se s termínem prvního tréninku."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Text tlačítka</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-form-btn" placeholder="Např. Přihlásit se na nábor"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Zpráva po odeslání</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-form-success" placeholder="Např. Děkujeme! Ozveme se vám do 2 pracovních dnů."></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Doplňující info (volitelné)</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Co s sebou přinést</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-info-sebou" placeholder="Např. Sportovní oblečení, přezůvky, dobrou náladu. Míč zajistíme."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Věkové rozmezí náboru</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-info-vek" placeholder="Např. Dívky ve věku 6–15 let"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Cena prvního tréninku</td>
+        <td class="td-current">—</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-info-cena" placeholder="Např. První trénink zdarma a nezávazně"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+</div><!-- /content -->
+
+<div class="save-bar" id="save-bar">
+  <span class="save-label" id="save-status">Neuložené změny: <span id="changed-count">0</span></span>
+  <button class="save-btn" id="save-btn" onclick="saveToSupabase()">💾 Uložit do databáze</button>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://tobgvagbblqejlqfmfiy.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRvYmd2YWdiYmxxZWpscWZtZml5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2MzQzNTQsImV4cCI6MjA5MjIxMDM1NH0.Pgy-CzwhVtAw24siLT7ySy43pQYmMgJsjkmbVNd0lCI';
+
+const TEAMS_DATA = [
+  { key: "zeny", name: "Ženy", desc: "Hlavní tým klubu hrající krajský přebor žen.", longDesc: "A-tým žen HC Háje je vlajkovou lodí klubu. Hrajeme krajský přebor a pravidelně se účastníme pohárových soutěží. Tým tvoří zkušené hráčky i mladé talenty z vlastní líhně.", coach: "Mgr. Jana Dvořáková", assistantCoach: "Petr Novák", ageRange: "18+" },
+  { key: "starsi-zakyne", name: "Starší žákyně", desc: "Soutěžní tým dívek 13–15 let.", longDesc: "Starší žákyně tvoří výkonnostní základ klubu. Dívky se připravují na přechod do dorostenecké a ženské kategorie. Důraz klademe na rozvoj herních dovedností, taktiku a soutěžní zkušenosti.", coach: "Petr Novák", assistantCoach: "", ageRange: "13–15 let" },
+  { key: "mladsi-zakyne", name: "Mladší žákyně", desc: "Dívky 10–12 let rozvíjející herní dovednosti.", longDesc: "U mladších žákyň stavíme na radosti z pohybu a postupném rozvoji házenkářských dovedností. Dívky se učí týmovou hru, střelbu, přihrávky i základy obrany.", coach: "Kateřina Malá", assistantCoach: "", ageRange: "10–12 let" },
+  { key: "mini-zakyne", name: "Mini žákyně", desc: "Nejmladší házenkářky 8–10 let.", longDesc: "Mini žákyně jsou budoucností našeho klubu. Trénujeme formou her a zábavných cvičení, která děti baví a zároveň rozvíjejí koordinaci, rychlost a základní házenkářské dovednosti.", coach: "Petr Zálešák", assistantCoach: "Kateřina Bláhová", ageRange: "8–10 let" },
+  { key: "pripravka", name: "Přípravka", desc: "Sportovní kroužek pro děvčata 6–8 let.", longDesc: "Přípravka je určená pro úplné začátečnice. Formou hry a pohybových aktivit se děvčata učí základům házené i obecné sportovní přípravě. Cílem je hlavně radost z pohybu a kamarádství.", coach: "Kateřina Bláhová", assistantCoach: "Petr Paulín", ageRange: "6–8 let" },
+];
+
+const DEFAULT_MILESTONES = [
+  { year: "1980", text: "Založení oddílu házené HC Háje." },
+  { year: "6–8 let", text: "Přípravka rozvíjí sportovní základy formou her a soutěží." },
+  { year: "9–11 let", text: "Minižákyně navazují na přípravku a seznamují se se základy házené." },
+  { year: "13+", text: "Navazující žákovské a dorostenecké kategorie sbírají zkušenosti i úspěchy v soutěžích." },
+  { year: "Dnes", text: "Hlavním cílem klubu je nadchnout co nejvíce dětí pro pravidelné sportování." },
+];
+
+let milestoneCount = 0;
+
+function buildMilestones() {
+  DEFAULT_MILESTONES.forEach(m => addMilestone(m.year, m.text));
+}
+
+function addMilestone(year = '', text = '') {
+  const id = ++milestoneCount;
+  const list = document.getElementById('milestones-list');
+  const row = document.createElement('div');
+  row.id = 'milestone-row-' + id;
+  row.style.cssText = 'display:grid;grid-template-columns:160px 1fr 32px;gap:8px;align-items:start;background:var(--bg2);border:0.5px solid var(--border);border-radius:8px;padding:10px 12px;';
+  row.innerHTML = `
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Označení</div>
+      <input type="text" class="editable milestone-input" data-field="milestone-${id}-year" value="${year}" placeholder="Rok nebo věk" style="width:100%;resize:none;min-height:36px;font-size:13px;" />
+    </div>
+    <div>
+      <div style="font-family:var(--mono);font-size:10px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Popis milníku</div>
+      <textarea class="editable milestone-input" data-field="milestone-${id}-text" rows="2" placeholder="Co se stalo nebo co tato fáze znamená..." style="width:100%;">${text}</textarea>
+    </div>
+    <button onclick="removeMilestone(${id})" style="margin-top:20px;background:none;border:0.5px solid rgba(255,255,255,0.1);color:var(--text3);border-radius:6px;width:28px;height:28px;cursor:pointer;font-size:14px;display:flex;align-items:center;justify-content:center;" title="Smazat milník">×</button>
+  `;
+  list.appendChild(row);
+  row.querySelectorAll('.milestone-input').forEach(el => {
+    el.addEventListener('input', () => { changedFields.add(el.dataset.field); updateSaveBar(); });
+  });
+}
+
+function removeMilestone(id) {
+  const row = document.getElementById('milestone-row-' + id);
+  if (row) row.remove();
+  changedFields.add('milestones-changed');
+  updateSaveBar();
+}
+
+function buildTeams() {
+  const container = document.getElementById('teams-container');
+  TEAMS_DATA.forEach(team => {
+    container.innerHTML += `
+    <div class="team-block">
+      <div class="team-header" onclick="toggleTeam('${team.key}')">
+        <div class="dot"></div>
+        <div class="team-header-title">${team.name}</div>
+        <div class="team-header-toggle" id="toggle-${team.key}">▼</div>
+      </div>
+      <div class="team-body" id="body-${team.key}">
+        <table>
+          <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+          <tbody>
+            <tr><td class="td-label">Krátký popis (karta)</td><td class="td-current">${team.desc}</td><td><textarea class="editable" rows="2" data-field="${team.key}-desc"></textarea></td></tr>
+            <tr><td class="td-label">Dlouhý popis (detail)</td><td class="td-current">${team.longDesc}</td><td><textarea class="editable" rows="3" data-field="${team.key}-longdesc"></textarea></td></tr>
+            <tr><td class="td-label">Věkové rozmezí</td><td class="td-current">${team.ageRange}</td><td><textarea class="editable" rows="1" data-field="${team.key}-age" placeholder="${team.ageRange}"></textarea></td></tr>
+            <tr><td class="td-label">Hlavní trenér/ka</td><td class="td-current">${team.coach}</td><td><textarea class="editable" rows="1" data-field="${team.key}-coach" placeholder="${team.coach}"></textarea></td></tr>
+            <tr><td class="td-label">Asistent/ka</td><td class="td-current">${team.assistantCoach || '—'}</td><td><textarea class="editable" rows="1" data-field="${team.key}-asst" placeholder="${team.assistantCoach || ''}"></textarea></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>`;
+  });
+  attachListeners();
+}
+
+function toggleTeam(key) {
+  const body = document.getElementById('body-' + key);
+  const toggle = document.getElementById('toggle-' + key);
+  body.classList.toggle('hidden');
+  toggle.textContent = body.classList.contains('hidden') ? '▶' : '▼';
+}
+
+function showPage(id, btn) {
+  document.querySelectorAll('.page-section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+let changedFields = new Set();
+
+function attachListeners() {
+  document.querySelectorAll('.editable').forEach(el => {
+    el.addEventListener('input', () => {
+      const field = el.dataset.field;
+      if (el.value.trim()) {
+        el.classList.add('changed');
+        changedFields.add(field);
+      } else {
+        el.classList.remove('changed');
+        changedFields.delete(field);
+      }
+      updateSaveBar();
+    });
+  });
+}
+
+function updateSaveBar() {
+  const bar = document.getElementById('save-bar');
+  const count = document.getElementById('changed-count');
+  const summary = document.getElementById('change-summary');
+  count.textContent = changedFields.size;
+  summary.textContent = changedFields.size + ' změn';
+  bar.classList.toggle('visible', changedFields.size > 0);
+  autoSaveLocal();
+}
+
+function collectData() {
+  const data = {};
+  document.querySelectorAll('.editable:not(.milestone-input)').forEach(el => {
+    if (el.value.trim()) data[el.dataset.field] = el.value.trim();
+  });
+  const milestoneRows = document.querySelectorAll('#milestones-list > div');
+  const milestones = [];
+  milestoneRows.forEach(row => {
+    const yearEl = row.querySelector('[data-field$="-year"]');
+    const textEl = row.querySelector('[data-field$="-text"]');
+    if (yearEl && textEl) milestones.push({ year: yearEl.value.trim(), text: textEl.value.trim() });
+  });
+  if (milestones.length) data['milestones'] = milestones;
+  return data;
+}
+
+function autoSaveLocal() {
+  try {
+    localStorage.setItem('hchaje_content', JSON.stringify(collectData()));
+  } catch(e) {}
+}
+
+function loadFromLocal() {
+  try {
+    const saved = localStorage.getItem('hchaje_content');
+    if (!saved) return;
+    const data = JSON.parse(saved);
+    Object.entries(data).forEach(([key, val]) => {
+      if (key === 'milestones') return;
+      const el = document.querySelector(`[data-field="${key}"]`);
+      if (el && val) { el.value = val; el.classList.add('changed'); changedFields.add(key); }
+    });
+    if (data.milestones && Array.isArray(data.milestones)) {
+      document.getElementById('milestones-list').innerHTML = '';
+      milestoneCount = 0;
+      data.milestones.forEach(m => addMilestone(m.year, m.text));
+    }
+    if (changedFields.size > 0) {
+      updateSaveBar();
+      showToast('📂 Rozpracované změny byly obnoveny z posledního uložení.', 'info');
+    }
+  } catch(e) {}
+}
+
+async function saveToSupabase() {
+  const btn = document.getElementById('save-btn');
+  const status = document.getElementById('save-status');
+  btn.disabled = true;
+  btn.textContent = 'Ukládám...';
+
+  const fields = collectData();
+  if (Object.keys(fields).length === 0) {
+    showToast('Nejsou žádné změny k uložení.', 'warn');
+    btn.disabled = false;
+    btn.textContent = '💾 Uložit do databáze';
+    return;
+  }
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/content_submissions`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ client_name: 'HC Háje', fields })
+    });
+
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+
+    changedFields.clear();
+    document.querySelectorAll('.editable').forEach(el => el.classList.remove('changed'));
+    document.getElementById('save-bar').classList.remove('visible');
+    localStorage.removeItem('hchaje_content');
+    showToast('✅ Uloženo! Jakub dostane upozornění.', 'success');
+  } catch(err) {
+    showToast('❌ Uložení se nezdařilo. Zkontrolujte připojení.', 'error');
+    console.error(err);
+  } finally {
+    btn.disabled = false;
+    btn.textContent = '💾 Uložit do databáze';
+  }
+}
+
+function showToast(msg, type = 'info') {
+  const colors = { success: '#a8ff57', error: '#ff6b6b', warn: '#ffcc57', info: '#57c8ff' };
+  const t = document.createElement('div');
+  t.style.cssText = `position:fixed;bottom:80px;right:24px;background:#1e1e1e;border:0.5px solid ${colors[type]};color:#f0f0f0;font-family:var(--body);font-size:13px;padding:12px 16px;border-radius:8px;z-index:200;max-width:320px;line-height:1.5;box-shadow:0 4px 20px rgba(0,0,0,0.5);`;
+  t.textContent = msg;
+  document.body.appendChild(t);
+  setTimeout(() => t.remove(), 4000);
+}
+
+function exportData() {
+  const data = collectData();
+  const lines = ['HC Háje — změny obsahu webu', '='.repeat(40), ''];
+  Object.entries(data).forEach(([key, val]) => {
+    lines.push(`[${key}]`);
+    lines.push(typeof val === 'object' ? JSON.stringify(val) : val);
+    lines.push('');
+  });
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'hchaje-obsah-web.txt'; a.click();
+  URL.revokeObjectURL(url);
+}
+
+buildTeams();
+buildMilestones();
+attachListeners();
+loadFromLocal();
+
+// close all team sections by default except first
+TEAMS_DATA.slice(1).forEach(t => {
+  const body = document.getElementById('body-' + t.key);
+  const toggle = document.getElementById('toggle-' + t.key);
+  if (body) { body.classList.add('hidden'); toggle.textContent = '▶'; }
+});
+</script>
+</body>
+</html>
