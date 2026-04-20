@@ -109,6 +109,70 @@
     margin-bottom: 32px;
   }
 
+  @media (max-width: 640px) {
+    .content { padding: 16px; }
+
+    thead { display: none; }
+
+    tbody tr {
+      display: flex;
+      flex-direction: column;
+      border: 0.5px solid rgba(255,255,255,0.08);
+      border-radius: 8px;
+      margin-bottom: 12px;
+      padding: 12px;
+      gap: 8px;
+    }
+
+    tbody tr:last-child { border-bottom: 0.5px solid rgba(255,255,255,0.08); }
+
+    td {
+      display: block;
+      padding: 0;
+      width: 100% !important;
+    }
+
+    .td-label {
+      font-size: 10px;
+      color: var(--green);
+      white-space: normal;
+      padding-top: 0;
+      margin-bottom: 2px;
+    }
+
+    .td-current {
+      font-size: 12px;
+      color: #999;
+      padding: 6px 8px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 4px;
+      border-left: 2px solid rgba(255,255,255,0.1);
+    }
+
+    .topbar {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 12px 16px;
+    }
+
+    .nav { padding: 12px 16px 0; gap: 2px; }
+    .nav-btn { padding: 6px 10px 10px; font-size: 10px; }
+
+    .save-bar {
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 6px;
+    }
+
+    .save-btn { text-align: center; padding: 10px; }
+
+    .section-title { font-size: 16px; }
+  }
+
   .table-label {
     font-family: var(--mono);
     font-size: 11px;
@@ -1012,8 +1076,35 @@ function loadFromLocal() {
   } catch(e) {}
 }
 
+function addNotesFields() {
+  const pages = ['uvod', 'o-klubu', 'druzstva', 'treninky', 'kontakty', 'navigace', 'nabor'];
+  const labels = {
+    'uvod': 'Úvodní stránka',
+    'o-klubu': 'O klubu',
+    'druzstva': 'Družstva',
+    'treninky': 'Tréninky',
+    'kontakty': 'Kontakty',
+    'navigace': 'Navigace & patička',
+    'nabor': 'Nábor'
+  };
+  pages.forEach(id => {
+    const section = document.getElementById('page-' + id);
+    if (!section) return;
+    const block = document.createElement('div');
+    block.style.cssText = 'margin-top:32px;border-top:0.5px solid rgba(255,255,255,0.08);padding-top:24px;';
+    block.innerHTML = `
+      <div style="font-family:var(--mono);font-size:11px;color:#666;text-transform:uppercase;letter-spacing:0.08em;margin-bottom:6px;">Další úpravy — ${labels[id]}</div>
+      <div style="font-size:13px;color:#aaa;margin-bottom:10px;">Napište volně co chcete přidat, změnit, odstranit nebo jak má sekce fungovat.</div>
+      <textarea class="editable" rows="5" data-field="notes-${id}" placeholder="Např. Přidat sekci s partnery, odstranit Instagram carousel, změnit barvu tlačítka na růžovou..." style="width:100%;"></textarea>
+    `;
+    section.appendChild(block);
+  });
+}
+
 buildTeams();
 buildMilestones();
+attachListeners();
+addNotesFields();
 attachListeners();
 
 // close all team sections by default except first
