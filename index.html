@@ -710,9 +710,7 @@
 <!-- NÁBOR -->
 <div class="page-section" id="page-nabor">
   <div class="section-title">Nábor</div>
-  <div class="section-desc">Nová stránka /nabor — úvodní text, fotka a kontaktní formulář.</div>
-
-  <div class="note"><span class="note-icon">✦</span> Toto je nová stránka která ještě neexistuje. Vyplňte obsah a Jakub ji postaví.</div>
+  <div class="section-desc">Stránka /chci-se-pridat — texty, kategorie, kontakty a formulář.</div>
 
   <div class="table-label">Úvodní sekce</div>
   <table>
@@ -720,77 +718,141 @@
     <tbody>
       <tr>
         <td class="td-label">Nadpis stránky</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-title" placeholder="Např. Nábor hráček"></textarea></td>
+        <td class="td-current">Nábor</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-title" placeholder="Nábor"></textarea></td>
       </tr>
       <tr>
         <td class="td-label">Podnadpis stránky</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-subtitle" placeholder="Např. Přijďte si vyzkoušet házenou zdarma a nezávazně."></textarea></td>
+        <td class="td-current">Přijď si vyzkoušet házenou v HC Háje.</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-subtitle"></textarea></td>
       </tr>
       <tr>
-        <td class="td-label">Úvodní text</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="5" data-field="nabor-text" placeholder="Delší text o náboru — pro koho je určen, co čekat na prvním tréninku, věkové kategorie..."></textarea></td>
+        <td class="td-label">Nadpis sekce</td>
+        <td class="td-current">Hledáš pro svou dceru sport, který ji bude bavit?</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-h2"></textarea></td>
       </tr>
       <tr>
-        <td class="td-label">Foto URL</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-foto" placeholder="https://res.cloudinary.com/..."></textarea></td>
+        <td class="td-label">Odstavec 1</td>
+        <td class="td-current">Přidej se k nám do dívčího házenkářského klubu HC Háje na Jižním Městě. Nabíráme nové hráčky všech úrovní od úplných začátečnic až po sportovně založené dívky, které chtějí zkusit něco nového.</td>
+        <td><textarea class="editable" rows="3" data-field="nabor-p1"></textarea></td>
       </tr>
       <tr>
-        <td class="td-label">Popisek fotky</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-foto-caption" placeholder="Např. Tréninky přípravky v areálu TJ Háje"></textarea></td>
+        <td class="td-label">Odstavec 2</td>
+        <td class="td-current">U nejmenších dětí stavíme hlavně na radosti z pohybu, hrách a pozitivním vztahu ke sportu. Děti vedeme krok za krokem tak, aby měly ze sportu dlouhodobě dobrý pocit.</td>
+        <td><textarea class="editable" rows="3" data-field="nabor-p2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Odstavec 3</td>
+        <td class="td-current">První trénink je u nás vždy zdarma a nezávazně. Přijďte mezi nás objevit radost z pohybu a týmového sportu.</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-p3"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Text tlačítka</td>
+        <td class="td-current">Chci zkušební trénink</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-btn"></textarea></td>
       </tr>
     </tbody>
   </table>
 
-  <div class="table-label">Kontaktní formulář</div>
+  <div class="table-label">Kategorie náboru</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Kategorie 1</td>
+        <td class="td-current">Přípravka: 5–8 let</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kat-1" placeholder="Přípravka: 5–8 let"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Kategorie 2</td>
+        <td class="td-current">Minižákyně: 8–10 let</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kat-2" placeholder="Minižákyně: 8–10 let"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Kategorie 3</td>
+        <td class="td-current">Starší družstva: 10 let a starší</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kat-3" placeholder="Starší družstva: 10 let a starší"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Sekce "Jak trénujeme" — miniházená</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Odstavec 1</td>
+        <td class="td-current">U nejmladších začínáme miniházenou, zábavnou a bezpečnou verzí házené pro děti. Hraje se s měkkým míčem, na menším hřišti a s menšími bránami. Díky tomu si děti rychle osvojí základy a hra je opravdu baví.</td>
+        <td><textarea class="editable" rows="3" data-field="nabor-mini-p1"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Odstavec 2</td>
+        <td class="td-current">V létě trénujeme na venkovním hřišti, v zimě v tělocvičnách na Jižním Městě. První měsíc tréninků je zpravidla zdarma bez členských poplatků, dál se domluvíme individuálně.</td>
+        <td><textarea class="editable" rows="3" data-field="nabor-mini-p2"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Kontaktní osoby (formulář)</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální hodnota</th><th>Nová hodnota</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Kontakt 1 — jméno</td>
+        <td class="td-current">Petr Paulín</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kontakt1-jmeno"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Kontakt 1 — telefon</td>
+        <td class="td-current">792 336 535</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kontakt1-tel"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Kontakt 2 — jméno</td>
+        <td class="td-current">Petr Zálešák</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kontakt2-jmeno"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Kontakt 2 — telefon</td>
+        <td class="td-current">777 721 282</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kontakt2-tel"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Kontakt 3 — jméno</td>
+        <td class="td-current">Kateřina Bláhová</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kontakt3-jmeno"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Kontakt 3 — telefon</td>
+        <td class="td-current">608 981 667</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kontakt3-tel"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">E-mail náboru</td>
+        <td class="td-current">pripravkahchaje@gmail.com</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-email"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Formulář</div>
   <table>
     <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
     <tbody>
       <tr>
         <td class="td-label">Nadpis formuláře</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-form-title" placeholder="Např. Mám zájem o nábor"></textarea></td>
+        <td class="td-current">První trénink je zdarma</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-form-title"></textarea></td>
       </tr>
       <tr>
-        <td class="td-label">Perex pod nadpisem</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="2" data-field="nabor-form-perex" placeholder="Např. Napište nám a ozveme se s termínem prvního tréninku."></textarea></td>
-      </tr>
-      <tr>
-        <td class="td-label">Text tlačítka</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-form-btn" placeholder="Např. Přihlásit se na nábor"></textarea></td>
+        <td class="td-label">Perex formuláře</td>
+        <td class="td-current">Domluvte si návštěvu na prvním ukázkovém tréninku přes kontakty níže. Nebo vyplňte kontaktní formulář a ozveme se vám zpět.</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-form-perex"></textarea></td>
       </tr>
       <tr>
         <td class="td-label">Zpráva po odeslání</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="2" data-field="nabor-form-success" placeholder="Např. Děkujeme! Ozveme se vám do 2 pracovních dnů."></textarea></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="table-label">Doplňující info (volitelné)</div>
-  <table>
-    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
-    <tbody>
-      <tr>
-        <td class="td-label">Co s sebou přinést</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="2" data-field="nabor-info-sebou" placeholder="Např. Sportovní oblečení, přezůvky, dobrou náladu. Míč zajistíme."></textarea></td>
-      </tr>
-      <tr>
-        <td class="td-label">Věkové rozmezí náboru</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-info-vek" placeholder="Např. Dívky ve věku 6–15 let"></textarea></td>
-      </tr>
-      <tr>
-        <td class="td-label">Cena prvního tréninku</td>
-        <td class="td-current">—</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-info-cena" placeholder="Např. První trénink zdarma a nezávazně"></textarea></td>
+        <td class="td-current">Zpráva byla úspěšně odeslána. Ozveme se vám co nejdříve.</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-form-success"></textarea></td>
       </tr>
     </tbody>
   </table>
