@@ -710,7 +710,7 @@
 <!-- NÁBOR -->
 <div class="page-section" id="page-nabor">
   <div class="section-title">Nábor</div>
-  <div class="section-desc">Stránka /chci-se-pridat — texty, kategorie, kontakty a formulář.</div>
+  <div class="section-desc">Stránka /chci-se-pridat — texty, kategorie, videa, kontakty a formulář.</div>
 
   <div class="table-label">Úvodní sekce</div>
   <table>
@@ -719,7 +719,7 @@
       <tr>
         <td class="td-label">Nadpis stránky</td>
         <td class="td-current">Nábor</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-title" placeholder="Nábor"></textarea></td>
+        <td><textarea class="editable" rows="1" data-field="nabor-title"></textarea></td>
       </tr>
       <tr>
         <td class="td-label">Podnadpis stránky</td>
@@ -761,17 +761,49 @@
       <tr>
         <td class="td-label">Kategorie 1</td>
         <td class="td-current">Přípravka: 5–8 let</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-kat-1" placeholder="Přípravka: 5–8 let"></textarea></td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kat-1"></textarea></td>
       </tr>
       <tr>
         <td class="td-label">Kategorie 2</td>
         <td class="td-current">Minižákyně: 8–10 let</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-kat-2" placeholder="Minižákyně: 8–10 let"></textarea></td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kat-2"></textarea></td>
       </tr>
       <tr>
         <td class="td-label">Kategorie 3</td>
         <td class="td-current">Starší družstva: 10 let a starší</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-kat-3" placeholder="Starší družstva: 10 let a starší"></textarea></td>
+        <td><textarea class="editable" rows="1" data-field="nabor-kat-3"></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Co dětem házená dá (seznam výhod)</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Výhoda 1</td>
+        <td class="td-current">pohybové dovednosti a koordinaci</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-vyhoda-1"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Výhoda 2</td>
+        <td class="td-current">rychlost, sílu a obratnost</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-vyhoda-2"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Výhoda 3</td>
+        <td class="td-current">týmovou spolupráci</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-vyhoda-3"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Výhoda 4</td>
+        <td class="td-current">zdravé sebevědomí</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-vyhoda-4"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Výhoda 5</td>
+        <td class="td-current">odvahu, rozhodnost a fair play</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-vyhoda-5"></textarea></td>
       </tr>
     </tbody>
   </table>
@@ -793,10 +825,47 @@
     </tbody>
   </table>
 
-  <div class="table-label">Kontaktní osoby (formulář)</div>
+  <div class="table-label">Videa z tréninků (YouTube URL)</div>
+  <table>
+    <thead><tr><th style="width:180px">Pole</th><th>Aktuální URL</th><th>Nová URL</th></tr></thead>
+    <tbody>
+      <tr>
+        <td class="td-label">Video 1</td>
+        <td class="td-current">https://youtube.com/shorts/qXrqO4WdFps</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-video-1" placeholder="https://youtube.com/shorts/..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Video 2</td>
+        <td class="td-current">https://youtube.com/shorts/3Jwy9uqJu4M</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-video-2" placeholder="https://youtube.com/shorts/..."></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Video 3</td>
+        <td class="td-current">https://youtube.com/shorts/0JEVSN4o9y0</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-video-3" placeholder="https://youtube.com/shorts/..."></textarea></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="table-label">Kontaktní sekce</div>
   <table>
     <thead><tr><th style="width:180px">Pole</th><th>Aktuální hodnota</th><th>Nová hodnota</th></tr></thead>
     <tbody>
+      <tr>
+        <td class="td-label">Nadpis formuláře</td>
+        <td class="td-current">Přijďte si to vyzkoušet, zcela zdarma</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-form-title"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Perex formuláře</td>
+        <td class="td-current">Domluvte si návštěvu na prvním ukázkovém tréninku přes kontakty níže. Nebo vyplňte kontaktní formulář a ozveme se vám zpět.</td>
+        <td><textarea class="editable" rows="2" data-field="nabor-form-perex"></textarea></td>
+      </tr>
+      <tr>
+        <td class="td-label">Zpráva po odeslání</td>
+        <td class="td-current">Zpráva byla úspěšně odeslána. Ozveme se vám co nejdříve.</td>
+        <td><textarea class="editable" rows="1" data-field="nabor-form-success"></textarea></td>
+      </tr>
       <tr>
         <td class="td-label">Kontakt 1 — jméno</td>
         <td class="td-current">Petr Paulín</td>
@@ -831,28 +900,6 @@
         <td class="td-label">E-mail náboru</td>
         <td class="td-current">pripravkahchaje@gmail.com</td>
         <td><textarea class="editable" rows="1" data-field="nabor-email"></textarea></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <div class="table-label">Formulář</div>
-  <table>
-    <thead><tr><th style="width:180px">Pole</th><th>Aktuální text</th><th>Nový text</th></tr></thead>
-    <tbody>
-      <tr>
-        <td class="td-label">Nadpis formuláře</td>
-        <td class="td-current">První trénink je zdarma</td>
-        <td><textarea class="editable" rows="1" data-field="nabor-form-title"></textarea></td>
-      </tr>
-      <tr>
-        <td class="td-label">Perex formuláře</td>
-        <td class="td-current">Domluvte si návštěvu na prvním ukázkovém tréninku přes kontakty níže. Nebo vyplňte kontaktní formulář a ozveme se vám zpět.</td>
-        <td><textarea class="editable" rows="2" data-field="nabor-form-perex"></textarea></td>
-      </tr>
-      <tr>
-        <td class="td-label">Zpráva po odeslání</td>
-        <td class="td-current">Zpráva byla úspěšně odeslána. Ozveme se vám co nejdříve.</td>
-        <td><textarea class="editable" rows="2" data-field="nabor-form-success"></textarea></td>
       </tr>
     </tbody>
   </table>
